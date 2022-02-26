@@ -64,7 +64,7 @@ class _ExampleOneState extends State<ExampleOne> {
                     return 'Field required.';
                   }
                   if (value.length < 3) {
-                    return 'Minimum ';
+                    return 'Three character minimum.';
                   }
                   return null;
                 },

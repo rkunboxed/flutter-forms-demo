@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_forms_demo/example_one.dart';
+import 'package:flutter_forms_demo/example_three.dart';
 import 'package:flutter_forms_demo/example_two.dart';
 
 void main() {
@@ -23,6 +24,13 @@ class MyApp extends StatelessWidget {
           settings: settings,
           builder: (context) {
             return const ExampleTwo();
+          },
+        );
+      case 'example-three':
+        return MaterialPageRoute(
+          settings: settings,
+          builder: (context) {
+            return const ExampleThree();
           },
         );
       default:
@@ -89,7 +97,7 @@ class Toc extends StatelessWidget {
                 title: const Text('Example Three'),
                 trailing: const Icon(Icons.arrow_right),
                 onTap: () {
-                  Navigator.of(context).pushNamed('example-one');
+                  Navigator.of(context).pushNamed('example-three');
                 },
               ),
             ],
