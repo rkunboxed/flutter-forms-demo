@@ -36,6 +36,8 @@ class _ExampleOneState extends State<ExampleOne> {
                 },
                 //use textInputAction to control action buttons on mobile keyboards
                 textInputAction: TextInputAction.next,
+                //request focus as soon as the widget is visible
+                autofocus: true,
               ),
               TextFormField(
                 decoration: const InputDecoration(
@@ -63,7 +65,13 @@ class _ExampleOneState extends State<ExampleOne> {
                 textInputAction: TextInputAction.next,
               ),
               const SizedBox(height: 20),
-              SubmitButton(_submit),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  CustomFormButton(buttonText: 'Reset', onPressed: _reset),
+                  CustomFormButton(buttonText: 'Submit', onPressed: _submit),
+                ],
+              )
             ],
           ),
         ),
@@ -84,5 +92,12 @@ class _ExampleOneState extends State<ExampleOne> {
       //_formKey.currentState!.save();
     }
     developer.log('SUCCESS');
+  }
+
+  void _reset() {
+    if (_formKey.currentState != null) {
+      //resets every FormField in this form back to it's initial value
+      _formKey.currentState!.reset();
+    }
   }
 }

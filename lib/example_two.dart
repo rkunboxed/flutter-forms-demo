@@ -32,16 +32,6 @@ class _ExampleTwoState extends State<ExampleTwo> {
     }
   }
 
-  void _submit() {
-    if (_formKey.currentState != null) {
-      if (!_formKey.currentState!.validate()) {
-        developer.log('FAILURE');
-        return;
-      }
-    }
-    developer.log('SUCCESS');
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -101,11 +91,19 @@ class _ExampleTwoState extends State<ExampleTwo> {
                   ],
                 ),
               ),
-              SubmitButton(_submit),
+              CustomFormButton(buttonText: 'submit', onPressed: _submit),
             ],
           ),
         ),
       ),
     );
+  }
+
+  void _submit() {
+    if (_formKey.currentState != null) {
+      if (!_formKey.currentState!.validate()) {
+        return;
+      }
+    }
   }
 }

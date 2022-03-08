@@ -1,4 +1,3 @@
-import 'dart:developer' as developer;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_forms_demo/custom_widgets/submit_button.dart';
@@ -11,24 +10,26 @@ class ExampleThree extends StatefulWidget {
 }
 
 class _ExampleThreeState extends State<ExampleThree> {
-  //unique key for the form
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  late FocusNode _firstNameFocusNode;
 
-  void _submit() {
-    if (_formKey.currentState != null) {
-      if (!_formKey.currentState!.validate()) {
-        developer.log('FAILURE');
-        return;
-      }
-    }
-    developer.log('SUCCESS');
+  @override
+  void initState() {
+    super.initState();
+    _firstNameFocusNode = FocusNode();
+  }
+
+  @override
+  void dispose() {
+    _firstNameFocusNode.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Example Two'),
+        title: const Text('Example Three'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(24),
@@ -37,6 +38,7 @@ class _ExampleThreeState extends State<ExampleThree> {
           child: ListView(
             children: <Widget>[
               TextFormField(
+                focusNode: _firstNameFocusNode,
                 decoration: const InputDecoration(
                   border: UnderlineInputBorder(),
                   labelText: 'First Name',
@@ -79,12 +81,33 @@ class _ExampleThreeState extends State<ExampleThree> {
                 ],
               ),
               const SizedBox(height: 20),
-              SubmitButton(_submit),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  CustomFormButton(buttonText: 'Reset', onPressed: _reset),
+                  CustomFormButton(buttonText: 'Submit', onPressed: _submit),
+                ],
+              )
             ],
           ),
         ),
       ),
     );
+  }
+
+  void _submit() {
+    if (_formKey.currentState != null) {
+      if (!_formKey.currentState!.validate()) {
+        return;
+      }
+    }
+  }
+
+  void _reset() {
+    if (_formKey.currentState != null) {
+      _formKey.currentState!.reset();
+      _firstNameFocusNode.requestFocus();
+    }
   }
 }
 
@@ -94,10 +117,13 @@ class _ExampleThreeState extends State<ExampleThree> {
 /// Format incoming numeric text to fit the format of (###) ###-#### ##
 class UsNumberTextInputFormatter extends TextInputFormatter {
   @override
-  TextEditingValue formatEditUpdate(TextEditingValue oldValue, TextEditingValue newValue) {
+  TextEditingValue formatEditUpdate(
+    TextEditingValue oldValue,
+    TextEditingValue newValue,
+  ) {
     final newTextLength = newValue.text.length;
     final newText = StringBuffer();
-    var selectionIndex = newValue.selection.end;
+    var selectionIndex = newValue.selection.end; //cursor position
     var usedSubstringIndex = 0;
     if (newTextLength >= 1) {
       newText.write('(');
@@ -115,12 +141,13 @@ class UsNumberTextInputFormatter extends TextInputFormatter {
       newText.write(newValue.text.substring(6, usedSubstringIndex = 10) + ' ');
       if (newValue.selection.end >= 10) selectionIndex++;
     }
-    // Dump the rest.
+    // Append the rest.
     if (newTextLength >= usedSubstringIndex) {
       newText.write(newValue.text.substring(usedSubstringIndex));
     }
     return TextEditingValue(
       text: newText.toString(),
+      //indicates position of the cursor
       selection: TextSelection.collapsed(offset: selectionIndex),
     );
   }

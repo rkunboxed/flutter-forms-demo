@@ -43,7 +43,6 @@ class _DropdownSelectState extends State<DropdownSelect> {
         if (fieldState.hasError) {
           _borderColor = Theme.of(context).colorScheme.error;
         }
-
         return Column(
           children: [
             Focus(
@@ -105,7 +104,10 @@ class _DropdownSelectState extends State<DropdownSelect> {
                 alignment: Alignment.topLeft,
                 child: Padding(
                   padding: const EdgeInsets.only(top: 6),
-                  child: Text(fieldState.errorText!, style: TextStyle(color: Theme.of(context).colorScheme.error, fontSize: 12)),
+                  child: Text(
+                    fieldState.errorText!,
+                    style: TextStyle(color: Theme.of(context).colorScheme.error, fontSize: 12),
+                  ),
                 ),
               ),
           ],

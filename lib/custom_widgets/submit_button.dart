@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
-class SubmitButton extends StatelessWidget {
-  const SubmitButton(this.onSubmit, {Key? key}) : super(key: key);
+class CustomFormButton extends StatelessWidget {
+  const CustomFormButton({required this.buttonText, required this.onPressed, Key? key}) : super(key: key);
 
-  final Function() onSubmit;
+  final String buttonText;
+  final Function() onPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -22,14 +23,14 @@ class SubmitButton extends StatelessWidget {
     }
 
     return TextButton(
-      onPressed: onSubmit,
+      onPressed: onPressed,
       style: ButtonStyle(
         //passes the current set of states for the button to our getColor method
         backgroundColor: MaterialStateProperty.resolveWith(getColor),
         padding: MaterialStateProperty.all<EdgeInsetsGeometry>(const EdgeInsets.only(left: 25, right: 25, top: 20, bottom: 20)),
         shape: MaterialStateProperty.all<OutlinedBorder>(const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(5)))),
       ),
-      child: const Text('SUBMIT', style: TextStyle(color: Colors.white)),
+      child: Text(buttonText.toUpperCase(), style: const TextStyle(color: Colors.white)),
     );
   }
 }

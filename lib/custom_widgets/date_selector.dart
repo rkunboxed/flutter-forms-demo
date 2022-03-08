@@ -64,10 +64,11 @@ class _DateSelectorState extends State<DateSelector> {
               const SizedBox(width: 12),
               Builder(
                 builder: (BuildContext context) {
+                  Color textColor = Colors.grey;
                   // if you need to do anything based on the focus state of the parent you can do that
                   // in a builder (so you have a context)
                   final FocusNode focusNode = Focus.of(context);
-                  Color textColor = Colors.grey;
+
                   if (focusNode.hasFocus) {
                     textColor = Colors.blue;
                   }
